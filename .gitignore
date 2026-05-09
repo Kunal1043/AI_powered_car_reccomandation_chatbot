@@ -1,0 +1,27 @@
+# Virtual environment
+chatbot/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Environment variables
+.env
+
+# Jupyter notebooks
+*.ipynb
+.ipynb_checkpoints/
+
+# Archives
+*.zip
+
+# Streamlit cache
+.streamlit/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+other_files/
