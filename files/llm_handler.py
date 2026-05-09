@@ -40,33 +40,22 @@ Extract preferences as valid JSON.
 
 Extract all explicitly mentioned car preferences including brand names.if some fields are not mentioned, leave them out.
 for example, if the user does not mention a budget, do not include the "budget_max" field in the JSON.
-if there only model name is mentioned without brand,leave out the brand field and only include the model field in the JSON.
+
 
 Possible fields:
 - brand
 - model
 - year
-- budget_max (number in INR)
+- budget_max
 - fuel_type
 - transmission
 - min_mileage
 - min_seating
 - prioritize
-Brands in dataset include:['Toyota', 'Kia', 'Maruti Suzuki', 'Honda', 'Volkswagen', 'Renault',
-       'Mahindra', 'Tata Motors', 'Skoda', 'Hyundai']
 
-models in dataset include: ['Innova', 'EV6', 'Dzire', 'Amaze', 'City', 'Sonet', 'Glanza',
-       'Taigun', 'Lodgy', 'Jazz', 'Civic', 'Kiger', 'Scorpio', 'Punch',
-       'Fortuner', 'Kushaq', 'Tiago', 'Superb', 'Camry', 'XUV700',
-       'Ertiga', 'Altroz', 'Harrier', 'Carnival', 'Polo', 'Swift',
-       'Verna', 'Slavia', 'Nexon', 'Virtus', 'Tiguan', 'Octavia',
-       'Seltos', 'Bolero', 'Thar', 'i10', 'Venue', 'Rapid', 'Creta',
-       'WR-V', 'XUV300', 'i20', 'Urban Cruiser', 'Vento', 'Baleno',
-       'Carens', 'Kwid', 'Duster', 'Triber', 'WagonR']
-
-add model and brand names as given above if any short name or spelling mistake is found in the user query. for example, if the user query contains "tata nexon", extract "Tata" as brand and "Nexon" as model.
-for example, tata rather than tata motors, and maruti rather than maruti suzuki.in joson file include tata as tata motors and maruti as maruti suzuki.
-use brand and model names as given in the dataset for extraction. if the user query contains "tata nexon", extract "Tata Motors" as brand and "Nexon" as model.
+Allowed brands:
+Toyota, Kia, Maruti Suzuki, Honda, Volkswagen, Renault,
+Mahindra, Tata Motors, Skoda, Hyundai
 
 Allowed fuel types:
 Petrol, Diesel, CNG, Electric, LPG
@@ -77,22 +66,34 @@ Manual, Automatic
 Allowed priorities:
 comfort, performance, economy, luxury
 
-Return ONLY valid JSON.
+Rules:
+1. Include only fields explicitly mentioned.
+2. If only a model is mentioned (e.g., "Civic"), infer the brand if known.
+3. Use exact brand names from the allowed brands list.
+4. Return ONLY JSON. No explanation. No markdown.
 
-Example format:
+Examples:
 
+Input: i want kia car
+Output:
 {{
-  "Brand": "Tata",
-  "Model": "Nexon",
-  "Year": 2023,
+  "brand": "Kia"
+}}
+
+Input: civic
+Output:
+{{
+  "brand": "Honda",
+  "model": "Civic"
+}}
+
+Input: automatic petrol car under 15 lakh
+Output:
+{{
   "budget_max": 1500000,
   "fuel_type": "Petrol",
-  "transmission": "Automatic",
-  "min_mileage": 18,
-  "min_seating": 5,
-  "prioritize": ["economy"]
+  "transmission": "Automatic"
 }}
-extract 
 """
 
     def extract_preferences(self, user_query: str) -> Dict:
@@ -227,7 +228,7 @@ if __name__ == "__main__":
 
     handler = LLMHandler()
 
-    test_query = "I want an automatic  tata petrol car under 1500000 with good mileage and 2023 model. I prioritize economy and comfort."  # Example query
+    test_query = "i want honda car"  # Example query
 
     print(f"\nQuery: {test_query}\n")
 
