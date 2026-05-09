@@ -228,12 +228,19 @@ def process_user_query(user_query: str):
     
     # Show loading state
     with st.spinner("🤔 Analyzing your query..."):
-        # Step 1: Extract preferences
-        preferences = st.session_state.llm_handler.extract_preferences(user_query)
-        st.session_state.preferences = preferences
-        
-        # Log extracted preferences
-        st.success(f"✓ Extracted preferences: {json.dumps(preferences, indent=2)}")
+        # Step 1: Extract preferences from current query
+        new_preferences = st.session_state.llm_handler.extract_preferences(user_query)
+
+        # Merge with previous preferences
+        st.session_state.preferences.update(new_preferences)
+
+        # Final combined preferences
+        preferences = st.session_state.preferences
+
+        # Show extracted preferences
+        st.success(
+            f"✓ Extracted preferences: {json.dumps(preferences, indent=2)}"
+        )
     
     with st.spinner("🔍 Searching for matching cars..."):
         # Step 2: Get recommendations
