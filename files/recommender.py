@@ -97,9 +97,9 @@ class CarRecommender:
                 == brand_value
         ]
 
-        applied_filters.append(
-            f"Brand: {preferences['brand']}"
-        )
+            applied_filters.append(
+                f"Brand: {preferences['brand']}"
+            )
 
         # =========================
         # MODEL FILTER
@@ -118,7 +118,7 @@ class CarRecommender:
             
             applied_filters.append(
                 f"Model: {preferences['model']}"
-    )
+        )
         # =========================
         # BUDGET
         # =========================

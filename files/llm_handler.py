@@ -82,9 +82,9 @@ Return ONLY valid JSON.
 Example format:
 
 {{
-  "brand": "Tata",
-  "model": "Nexon",
-  "year": 2023,
+  "Brand": "Tata",
+  "Model": "Nexon",
+  "Year": 2023,
   "budget_max": 1500000,
   "fuel_type": "Petrol",
   "transmission": "Automatic",
